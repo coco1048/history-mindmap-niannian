@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<!-- saved from url=(0357)https://static.coze.site/322584890323196_0-data_volume/7654531822910619944-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BEWeb%E5%BA%94%E7%94%A8/%E5%8E%86%E5%8F%B2%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.html?sign=1784910323-35f86eb46e-0-b49b83987fb4e8c43ba91d5b665a8b2a7cf462045eafb4d9e75bb441232f9e4e -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>第2课 原始农耕生活 - 思维导图</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --main-bg:#FFF8F0;
+  --title-bg:#E8652B;
+  --title-text:#fff;
+  --branch-bg:#FDE8D0;
+  --branch-border:#E8A96A;
+  --branch-text:#5C3A1E;
+  --line-color:#B0A090;
+  --blank-bg:#fff;
+  --blank-border:#C8C0B8;
+  --correct:#2E9E5A;
+  --wrong:#D94040;
+  --progress-bg:#E8DDD0;
+  --progress-fill:#E8652B;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--main-bg);
+  color:#3A2A1A;
+}
+/* 顶部栏 */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;
+  background:rgba(255,248,240,.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(200,180,160,.25);
+}
+.topbar h1{font-size:16px;font-weight:600;color:#5C3A1E}
+.topbar-btns{display:flex;gap:8px}
+.topbar-btns button{
+  padding:6px 14px;border-radius:8px;border:1.5px solid var(--branch-border);
+  background:#fff;color:var(--branch-text);font-size:13px;font-weight:500;
+  cursor:pointer;transition:all .2s;
+}
+.topbar-btns button:hover{background:var(--branch-bg)}
+.topbar-btns button.active{background:var(--title-bg);color:#fff;border-color:var(--title-bg)}
+
+/* 进度条 */
+.progress-wrap{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  padding:8px 20px 12px;background:rgba(255,248,240,.92);
+  backdrop-filter:blur(8px);border-top:1px solid rgba(200,180,160,.2);
+}
+.progress-bar{
+  height:6px;border-radius:3px;background:var(--progress-bg);overflow:hidden;
+}
+.progress-fill{
+  height:100%;border-radius:3px;background:var(--progress-fill);
+  transition:width .4s ease;width:0%;
+}
+.progress-text{
+  text-align:center;margin-top:4px;font-size:12px;color:#9A8A7A;
+}
+
+/* 主容器 - 可滚动 */
+.mindmap-container{
+  position:absolute;top:52px;bottom:42px;left:0;right:0;
+  overflow:auto;padding:30px 20px 20px 30px;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* 思维导图主体 */
+.mindmap{
+  display:flex;align-items:flex-start;gap:0;
+  min-width:max-content;
+}
+
+/* 主标题 */
+.main-title{
+  flex-shrink:0;
+  background:var(--title-bg);
+  color:var(--title-text);
+  padding:14px 22px;
+  border-radius:14px;
+  font-size:18px;font-weight:700;
+  letter-spacing:1px;
+  box-shadow:0 3px 12px rgba(232,101,43,.25);
+  margin-top:40px;
+  white-space:nowrap;
+}
+
+/* 横向连接线容器 */
+.h-connector{
+  flex-shrink:0;
+  display:flex;align-items:flex-start;
+  margin-top:55px;
+  width:40px;
+}
+.h-connector svg{width:40px;height:2px}
+
+/* 分支区域 */
+.branches-area{
+  display:flex;flex-direction:column;gap:18px;
+}
+
+/* 单个分支行 */
+.branch-row{
+  display:flex;align-items:flex-start;gap:0;
+}
+
+/* 分支标题框 */
+.branch-title{
+  flex-shrink:0;
+  background:var(--branch-bg);
+  border:2px solid var(--branch-border);
+  color:var(--branch-text);
+  padding:10px 18px;
+  border-radius:12px;
+  font-size:15px;font-weight:600;
+  cursor:pointer;
+  user-select:none;
+  transition:all .2s;
+  white-space:nowrap;
+  position:relative;
+}
+.branch-title:hover{box-shadow:0 2px 8px rgba(232,169,106,.3)}
+.branch-title .arrow{
+  display:inline-block;margin-left:6px;font-size:12px;
+  transition:transform .3s;
+}
+.branch-title.collapsed .arrow{transform:rotate(-90deg)}
+
+/* 大括号连接区域 */
+.brace-area{
+  flex-shrink:0;
+  position:relative;
+  width:36px;
+  min-height:40px;
+}
+.brace-area svg{
+  position:absolute;top:0;left:0;
+  width:36px;height:100%;
+  overflow:visible;
+}
+
+/* 知识点列表 */
+.points{
+  display:flex;flex-direction:column;gap:6px;
+  padding-top:2px;
+  transition:all .3s ease;
+  overflow:hidden;
+}
+.points.hidden{max-height:0!important;opacity:0;padding:0;margin:0;gap:0}
+.points:not(.hidden){opacity:1}
+
+/* 单个知识点 */
+.point{
+  display:flex;align-items:center;gap:6px;
+  font-size:14px;line-height:1.6;
+  color:#4A3A2A;
+  padding:3px 0;
+}
+.point .bullet{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--branch-border);flex-shrink:0;
+}
+
+/* 填空部分 */
+.blank-box{
+  display:inline-flex;align-items:center;
+  min-width:60px;
+  border-bottom:2px dashed var(--blank-border);
+  padding:1px 6px;
+  margin:0 2px;
+  position:relative;
+  transition:all .2s;
+}
+.blank-box input{
+  border:none;outline:none;background:transparent;
+  font-size:14px;color:#3A2A1A;
+  width:100%;min-width:40px;
+  font-family:inherit;
+  text-align:center;
+  padding:2px 0;
+}
+.blank-box input::placeholder{color:#C8C0B8;font-size:12px}
+.blank-box.correct{
+  border-bottom-color:var(--correct);
+  background:rgba(46,158,90,.08);
+  border-radius:4px;
+}
+.blank-box.correct input{color:var(--correct);font-weight:600}
+.blank-box.wrong{
+  border-bottom-color:var(--wrong);
+  background:rgba(217,64,64,.06);
+  border-radius:4px;
+  animation:shake .35s ease;
+}
+.blank-box.wrong input{color:var(--wrong)}
+.blank-box.revealed{
+  border-bottom:2px solid var(--correct);
+  background:rgba(46,158,90,.08);
+  border-radius:4px;
+}
+.blank-box.revealed input{color:var(--correct);font-weight:600}
+.blank-icon{
+  font-size:14px;margin-left:4px;flex-shrink:0;
+  animation:popIn .3s ease;
+}
+
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%,60%{transform:translateX(-3px)}
+  40%,80%{transform:translateX(3px)}
+}
+@keyframes popIn{
+  0%{transform:scale(0)}100%{transform:scale(1)}
+}
+
+/* 复习模式显示答案 */
+.review-mode .blank-box{
+  border-bottom-style:solid;
+  border-bottom-color:var(--correct);
+  background:rgba(46,158,90,.08);
+  border-radius:4px;
+}
+.review-mode .blank-box input{
+  color:var(--correct);font-weight:600;
+}
+
+/* 响应式 iPad */
+@media(max-width:1024px){
+  .mindmap-container{padding:20px 12px 20px 16px}
+  .main-title{font-size:15px;padding:10px 16px;margin-top:20px}
+  .h-connector{width:24px;margin-top:35px}
+  .h-connector svg{width:24px}
+  .branch-title{font-size:13px;padding:8px 12px}
+  .brace-area{width:28px}
+  .point{font-size:13px}
+  .blank-box input{font-size:13px}
+}
+@media(max-width:768px){
+  .topbar{padding:8px 12px}
+  .topbar h1{font-size:14px}
+  .topbar-btns button{padding:5px 10px;font-size:12px}
+  .mindmap-container{padding:14px 8px 14px 10px}
+  .main-title{font-size:13px;padding:8px 12px;border-radius:10px;margin-top:10px}
+  .h-connector{width:18px;margin-top:26px}
+  .h-connector svg{width:18px}
+  .branch-title{font-size:12px;padding:6px 10px;border-radius:8px}
+  .brace-area{width:22px}
+  .point{font-size:12px;line-height:1.5}
+  .blank-box input{font-size:12px}
+  .blank-box{min-width:50px}
+}
+
+/* 滚动条美化 */
+.mindmap-container::-webkit-scrollbar{width:6px;height:6px}
+.mindmap-container::-webkit-scrollbar-track{background:transparent}
+.mindmap-container::-webkit-scrollbar-thumb{background:#D0C8C0;border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>🧠 第2课 原始农耕生活</h1>
+  <div class="topbar-btns">
+    <button id="btnReview" onclick="toggleReview()">📖 复习模式</button>
+    <button onclick="resetProgress()">🔄 重置进度</button>
+  </div>
+</div>
+
+<div class="mindmap-container" id="mindmapContainer">
+  <div class="mindmap" id="mindmap"><div class="main-title">2. 原始农耕生活</div><div class="h-connector"><svg viewBox="0 0 40 2"><line x1="0" y1="1" x2="40" y2="1" stroke="var(--line-color)" stroke-width="2"></line></svg></div><div class="branches-area"><div class="branch-row" data-branch="0"><div class="branch-title" data-branch="0">原始农业的发展<span class="arrow">▾</span></div><div class="brace-area" id="brace-0" style="height: 104px;"><svg viewBox="0 0 40 104" preserveAspectRatio="none" style="width:36px;height:100%">
+    <path d="M 0 18 L 18 18 Q 30 18 30 30 L 30 44 Q 30 56 36 56 Q 30 56 30 68 L 30 82 Q 30 94 18 94 L 0 94" fill="none" stroke="var(--line-color)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+    <line x1="30" y1="18" x2="38" y2="18" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="56" x2="38" y2="56" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="94" x2="38" y2="94" stroke="var(--line-color)" stroke-width="1.5"></line>
+  </svg></div><div class="points" id="points-0"><div class="point"><span class="bullet"></span><span>约</span><span class="blank-box" id="blank-b1"><input type="text" data-blank-id="b1" data-answer="1万" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 40px;"></span><span>年前，我国出现最早的人工栽培的农作物</span></div><div class="point"><span class="bullet"></span><span>世界上最早的栽培</span><span class="blank-box" id="blank-b2"><input type="text" data-blank-id="b2" data-answer="稻" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 40px;"></span><span>、粟和黍均发现于中国</span></div><div class="point"><span class="bullet"></span><span>农作物种植、家畜饲养的出现和聚落、</span><span class="blank-box" id="blank-b3"><input type="text" data-blank-id="b3" data-answer="磨制石器" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 64px;"></span><span>的发展是原始农业兴起和发展的重要标志</span></div></div></div><div class="branch-row" data-branch="1"><div class="branch-title" data-branch="1">河姆渡人<span class="arrow">▾</span></div><div class="brace-area" id="brace-1" style="height: 180px;"><svg viewBox="0 0 40 180" preserveAspectRatio="none" style="width:36px;height:100%">
+    <path d="M 0 18 L 18 18 Q 30 18 30 30 L 30 82 Q 30 94 36 94 Q 30 94 30 106 L 30 158 Q 30 170 18 170 L 0 170" fill="none" stroke="var(--line-color)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+    <line x1="30" y1="18" x2="38" y2="18" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="56" x2="38" y2="56" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="94" x2="38" y2="94" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="132" x2="38" y2="132" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="170" x2="38" y2="170" stroke="var(--line-color)" stroke-width="1.5"></line>
+  </svg></div><div class="points" id="points-1"><div class="point"><span class="bullet"></span><span>约</span><span class="blank-box" id="blank-b4"><input type="text" data-blank-id="b4" data-answer="7000" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 64px;"></span><span>年前，</span><span class="blank-box" id="blank-b5"><input type="text" data-blank-id="b5" data-answer="浙江余姚" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 64px;"></span><span>，长江流域</span></div><div class="point"><span class="bullet"></span><span>人工栽培</span><span class="blank-box" id="blank-b6"><input type="text" data-blank-id="b6" data-answer="水稻" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 40px;"></span></div><div class="point"><span class="bullet"></span><span class="blank-box" id="blank-b7"><input type="text" data-blank-id="b7" data-answer="干栏式" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 48px;"></span><span>房屋、木结构水井，中国最早的木构建筑和木结构水井</span></div><div class="point"><span class="bullet"></span><span>典型农具是</span><span class="blank-box" id="blank-b8"><input type="text" data-blank-id="b8" data-answer="骨耜" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 40px;"></span><span>，家畜以猪、狗、水牛为主</span></div><div class="point"><span class="bullet"></span><span>陶器、玉器，乐器</span><span class="blank-box" id="blank-b9"><input type="text" data-blank-id="b9" data-answer="骨哨" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 40px;"></span><span>，象牙雕刻，天然漆</span></div></div></div><div class="branch-row" data-branch="2"><div class="branch-title" data-branch="2">半坡人<span class="arrow">▾</span></div><div class="brace-area" id="brace-2" style="height: 218px;"><svg viewBox="0 0 40 218" preserveAspectRatio="none" style="width:36px;height:100%">
+    <path d="M 0 18 L 18 18 Q 30 18 30 30 L 30 101 Q 30 113 36 113 Q 30 113 30 125 L 30 196 Q 30 208 18 208 L 0 208" fill="none" stroke="var(--line-color)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+    <line x1="30" y1="18" x2="38" y2="18" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="56" x2="38" y2="56" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="94" x2="38" y2="94" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="132" x2="38" y2="132" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="170" x2="38" y2="170" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="208" x2="38" y2="208" stroke="var(--line-color)" stroke-width="1.5"></line>
+  </svg></div><div class="points" id="points-2"><div class="point"><span class="bullet"></span><span>约</span><span class="blank-box" id="blank-b10"><input type="text" data-blank-id="b10" data-answer="6000" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 64px;"></span><span>年前，</span><span class="blank-box" id="blank-b11"><input type="text" data-blank-id="b11" data-answer="陕西西安" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 64px;"></span><span>，黄河流域</span></div><div class="point"><span class="bullet"></span><span>主要种植</span><span class="blank-box" id="blank-b12"><input type="text" data-blank-id="b12" data-answer="粟" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 40px;"></span></div><div class="point"><span class="bullet"></span><span class="blank-box" id="blank-b13"><input type="text" data-blank-id="b13" data-answer="半地穴式" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 64px;"></span><span>圆形房屋</span></div><div class="point"><span class="bullet"></span><span>半坡人面鱼纹</span><span class="blank-box" id="blank-b14"><input type="text" data-blank-id="b14" data-answer="彩陶盆" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 48px;"></span></div><div class="point"><span class="bullet"></span><span>会简单</span><span class="blank-box" id="blank-b15"><input type="text" data-blank-id="b15" data-answer="纺织" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 40px;"></span><span>、制衣</span></div><div class="point"><span class="bullet"></span><span>乐器</span><span class="blank-box" id="blank-b16"><input type="text" data-blank-id="b16" data-answer="陶埙" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 40px;"></span><span>，磨制石器，骨器、角器，养猪和狗等，捕猎捕鱼</span></div></div></div><div class="branch-row" data-branch="3"><div class="branch-title" data-branch="3">良渚遗址<span class="arrow">▾</span></div><div class="brace-area" id="brace-3" style="height: 104px;"><svg viewBox="0 0 40 104" preserveAspectRatio="none" style="width:36px;height:100%">
+    <path d="M 0 18 L 18 18 Q 30 18 30 30 L 30 44 Q 30 56 36 56 Q 30 56 30 68 L 30 82 Q 30 94 18 94 L 0 94" fill="none" stroke="var(--line-color)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+    <line x1="30" y1="18" x2="38" y2="18" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="56" x2="38" y2="56" stroke="var(--line-color)" stroke-width="1.5"></line><line x1="30" y1="94" x2="38" y2="94" stroke="var(--line-color)" stroke-width="1.5"></line>
+  </svg></div><div class="points" id="points-3"><div class="point"><span class="bullet"></span><span>约</span><span class="blank-box" id="blank-b17"><input type="text" data-blank-id="b17" data-answer="5000" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 64px;"></span><span>年前，出现早期国家</span></div><div class="point"><span class="bullet"></span><span>浙江余杭</span><span class="blank-box" id="blank-b18"><input type="text" data-blank-id="b18" data-answer="良渚镇" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 48px;"></span></div><div class="point"><span class="bullet"></span><span class="blank-box" id="blank-b19"><input type="text" data-blank-id="b19" data-answer="古城" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="??" style="width: 40px;"></span><span>、高台、玉器、祭坛</span></div></div></div></div></div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 0%;"></div></div>
+  <div class="progress-text" id="progressText">0 / 19 已完成</div>
+</div>
+
+<script>
+// ========== 数据定义 ==========
+const MINDMAP_DATA = {
+  title: "2. 原始农耕生活",
+  branches: [
+    {
+      name: "原始农业的发展",
+      points: [
+        { text: "约【1万】年前，我国出现最早的人工栽培的农作物", blanks: [{id:"b1",answer:"1万",pos:1}] },
+        { text: "世界上最早的栽培【稻】、粟和黍均发现于中国", blanks: [{id:"b2",answer:"稻",pos:1}] },
+        { text: "农作物种植、家畜饲养的出现和聚落、【磨制石器】的发展是原始农业兴起和发展的重要标志", blanks: [{id:"b3",answer:"磨制石器",pos:1}] }
+      ]
+    },
+    {
+      name: "河姆渡人",
+      points: [
+        { text: "约【7000】年前，【浙江余姚】，长江流域", blanks: [{id:"b4",answer:"7000",pos:1},{id:"b5",answer:"浙江余姚",pos:2}] },
+        { text: "人工栽培【水稻】", blanks: [{id:"b6",answer:"水稻",pos:1}] },
+        { text: "【干栏式】房屋、木结构水井，中国最早的木构建筑和木结构水井", blanks: [{id:"b7",answer:"干栏式",pos:1}] },
+        { text: "典型农具是【骨耜】，家畜以猪、狗、水牛为主", blanks: [{id:"b8",answer:"骨耜",pos:1}] },
+        { text: "陶器、玉器，乐器【骨哨】，象牙雕刻，天然漆", blanks: [{id:"b9",answer:"骨哨",pos:1}] }
+      ]
+    },
+    {
+      name: "半坡人",
+      points: [
+        { text: "约【6000】年前，【陕西西安】，黄河流域", blanks: [{id:"b10",answer:"6000",pos:1},{id:"b11",answer:"陕西西安",pos:2}] },
+        { text: "主要种植【粟】", blanks: [{id:"b12",answer:"粟",pos:1}] },
+        { text: "【半地穴式】圆形房屋", blanks: [{id:"b13",answer:"半地穴式",pos:1}] },
+        { text: "半坡人面鱼纹【彩陶盆】", blanks: [{id:"b14",answer:"彩陶盆",pos:1}] },
+        { text: "会简单【纺织】、制衣", blanks: [{id:"b15",answer:"纺织",pos:1}] },
+        { text: "乐器【陶埙】，磨制石器，骨器、角器，养猪和狗等，捕猎捕鱼", blanks: [{id:"b16",answer:"陶埙",pos:1}] }
+      ]
+    },
+    {
+      name: "良渚遗址",
+      points: [
+        { text: "约【5000】年前，出现早期国家", blanks: [{id:"b17",answer:"5000",pos:1}] },
+        { text: "浙江余杭【良渚镇】", blanks: [{id:"b18",answer:"良渚镇",pos:1}] },
+        { text: "【古城】、高台、玉器、祭坛", blanks: [{id:"b19",answer:"古城",pos:1}] }
+      ]
+    }
+  ]
+};
+
+// ========== 状态管理 ==========
+let reviewMode = false;
+let completed = {};
+const STORAGE_KEY = "mindmap_history_2_progress";
+
+function loadProgress() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) completed = JSON.parse(saved);
+  } catch(e) {}
+}
+function saveProgress() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(completed)); } catch(e) {}
+}
+function resetProgress() {
+  if (!confirm("确定要重置所有进度吗？")) return;
+  completed = {};
+  saveProgress();
+  renderMindmap();
+  updateProgress();
+}
+
+// ========== 模糊匹配 ==========
+function fuzzyMatch(input, answer) {
+  const inp = input.trim().replace(/\s+/g, '');
+  const ans = answer.trim().replace(/\s+/g, '');
+  if (!inp) return false;
+  // 完全匹配
+  if (inp === ans) return true;
+  // 去掉"年""前"等常见后缀再比
+  const clean = s => s.replace(/[年前左右约]/g, '');
+  if (clean(inp) === clean(ans)) return true;
+  // 包含关键词（答案的核心词在输入中存在）
+  if (ans.length >= 2 && inp.includes(ans)) return true;
+  if (ans.length >= 2 && ans.includes(inp) && inp.length >= ans.length * 0.5) return true;
+  return false;
+}
+
+// ========== 渲染 ==========
+function renderMindmap() {
+  const container = document.getElementById('mindmap');
+  container.innerHTML = '';
+
+  // 主标题
+  const titleEl = document.createElement('div');
+  titleEl.className = 'main-title';
+  titleEl.textContent = MINDMAP_DATA.title;
+  container.appendChild(titleEl);
+
+  // 横向连接线
+  const hConn = document.createElement('div');
+  hConn.className = 'h-connector';
+  hConn.innerHTML = '<svg viewBox="0 0 40 2"><line x1="0" y1="1" x2="40" y2="1" stroke="var(--line-color)" stroke-width="2"/></svg>';
+  container.appendChild(hConn);
+
+  // 分支区域
+  const branchesArea = document.createElement('div');
+  branchesArea.className = 'branches-area';
+  container.appendChild(branchesArea);
+
+  MINDMAP_DATA.branches.forEach((branch, bi) => {
+    const row = document.createElement('div');
+    row.className = 'branch-row';
+    row.dataset.branch = bi;
+
+    // 分支标题
+    const bTitle = document.createElement('div');
+    bTitle.className = 'branch-title';
+    bTitle.dataset.branch = bi;
+    bTitle.innerHTML = `${branch.name}<span class="arrow">▾</span>`;
+    bTitle.onclick = () => toggleBranch(bi);
+    row.appendChild(bTitle);
+
+    // 大括号区
+    const braceArea = document.createElement('div');
+    braceArea.className = 'brace-area';
+    braceArea.id = `brace-${bi}`;
+    row.appendChild(braceArea);
+
+    // 知识点
+    const pointsDiv = document.createElement('div');
+    pointsDiv.className = 'points';
+    pointsDiv.id = `points-${bi}`;
+
+    branch.points.forEach((pt, pi) => {
+      const pointEl = document.createElement('div');
+      pointEl.className = 'point';
+
+      const bullet = document.createElement('span');
+      bullet.className = 'bullet';
+      pointEl.appendChild(bullet);
+
+      // 解析文本中的【】标记生成填空
+      const parts = parsePointText(pt);
+      parts.forEach(part => {
+        if (part.type === 'text') {
+          const span = document.createElement('span');
+          span.textContent = part.value;
+          pointEl.appendChild(span);
+        } else {
+          const blankBox = document.createElement('span');
+          blankBox.className = 'blank-box';
+          blankBox.id = `blank-${part.id}`;
+          if (completed[part.id]) {
+            blankBox.classList.add('correct');
+          }
+          if (reviewMode) {
+            blankBox.classList.add('revealed');
+          }
+
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.dataset.blankId = part.id;
+          input.dataset.answer = part.answer;
+          input.setAttribute('autocomplete', 'off');
+          input.setAttribute('autocorrect', 'off');
+          input.setAttribute('autocapitalize', 'off');
+          input.setAttribute('spellcheck', 'false');
+
+          if (completed[part.id]) {
+            input.value = part.answer;
+            input.readOnly = true;
+          } else if (reviewMode) {
+            input.value = part.answer;
+            input.readOnly = true;
+          } else {
+            input.placeholder = '??';
+            const ansLen = part.answer.length;
+            input.style.width = Math.max(40, ansLen * 16) + 'px';
+            input.addEventListener('keydown', onBlankKeydown);
+            input.addEventListener('blur', onBlankBlur);
+          }
+          blankBox.appendChild(input);
+
+          // 状态图标
+          if (completed[part.id]) {
+            const icon = document.createElement('span');
+            icon.className = 'blank-icon';
+            icon.textContent = '✓';
+            icon.style.color = 'var(--correct)';
+            blankBox.appendChild(icon);
+          }
+
+          pointEl.appendChild(blankBox);
+        }
+      });
+
+      pointsDiv.appendChild(pointEl);
+    });
+
+    row.appendChild(pointsDiv);
+    branchesArea.appendChild(row);
+  });
+
+  // 渲染后计算大括号
+  requestAnimationFrame(() => {
+    MINDMAP_DATA.branches.forEach((_, bi) => drawBrace(bi));
+    updateProgress();
+  });
+}
+
+function parsePointText(pt) {
+  // 从 blanks 构建模板：将【xxx】替换为占位
+  const parts = [];
+  let text = pt.text;
+  let blankIdx = 0;
+
+  // 替换【】为占位符
+  const regex = /【([^】]+)】/g;
+  let lastIndex = 0;
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push({ type: 'text', value: text.slice(lastIndex, match.index) });
+    }
+    const blank = pt.blanks[blankIdx];
+    parts.push({ type: 'blank', id: blank.id, answer: blank.answer });
+    blankIdx++;
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < text.length) {
+    parts.push({ type: 'text', value: text.slice(lastIndex) });
+  }
+  return parts;
+}
+
+// ========== 大括号绘制 ==========
+function drawBrace(branchIdx) {
+  const braceArea = document.getElementById(`brace-${branchIdx}`);
+  const pointsDiv = document.getElementById(`points-${branchIdx}`);
+  if (!braceArea || !pointsDiv) return;
+
+  const branchTitle = braceArea.previousElementSibling;
+  const points = pointsDiv.querySelectorAll('.point');
+  if (points.length === 0) {
+    braceArea.innerHTML = '';
+    return;
+  }
+
+  const bRect = branchTitle.getBoundingClientRect();
+  const pRects = Array.from(points).map(p => p.getBoundingClientRect());
+
+  // 计算相对于 braceArea 的坐标
+  const aRect = braceArea.getBoundingClientRect();
+
+  const topY = pRects[0].top + pRects[0].height / 2 - aRect.top;
+  const botY = pRects[pRects.length - 1].top + pRects[pRects.length - 1].height / 2 - aRect.top;
+  const midY = (topY + botY) / 2;
+  const totalH = botY - topY;
+  const w = 36;
+
+  braceArea.style.height = Math.max(40, botY + 10) + 'px';
+
+  // 绘制大括号 SVG
+  const curveR = Math.min(12, totalH / 4);
+  let d = `M 0 ${topY}`;
+  d += ` L ${w - curveR - 6} ${topY}`;
+  d += ` Q ${w - 6} ${topY} ${w - 6} ${topY + curveR}`;
+  d += ` L ${w - 6} ${midY - curveR}`;
+  d += ` Q ${w - 6} ${midY} ${w} ${midY}`;
+  d += ` Q ${w - 6} ${midY} ${w - 6} ${midY + curveR}`;
+  d += ` L ${w - 6} ${botY - curveR}`;
+  d += ` Q ${w - 6} ${botY} ${w - curveR - 6} ${botY}`;
+  d += ` L 0 ${botY}`;
+
+  // 水平短线连接到每个知识点
+  let lines = '';
+  pRects.forEach(pr => {
+    const y = pr.top + pr.height / 2 - aRect.top;
+    lines += `<line x1="${w - 6}" y1="${y}" x2="${w + 2}" y2="${y}" stroke="var(--line-color)" stroke-width="1.5"/>`;
+  });
+
+  braceArea.innerHTML = `<svg viewBox="0 0 ${w + 4} ${Math.max(40, botY + 10)}" preserveAspectRatio="none" style="width:${w}px;height:100%">
+    <path d="${d}" fill="none" stroke="var(--line-color)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    ${lines}
+  </svg>`;
+}
+
+// ========== 交互 ==========
+function toggleBranch(idx) {
+  const title = document.querySelector(`.branch-title[data-branch="${idx}"]`);
+  const points = document.getElementById(`points-${idx}`);
+  const brace = document.getElementById(`brace-${idx}`);
+  const isCollapsed = title.classList.toggle('collapsed');
+
+  if (isCollapsed) {
+    points.style.maxHeight = points.scrollHeight + 'px';
+    requestAnimationFrame(() => {
+      points.classList.add('hidden');
+      points.style.maxHeight = '0px';
+    });
+    brace.style.opacity = '0';
+  } else {
+    points.classList.remove('hidden');
+    points.style.maxHeight = points.scrollHeight + 100 + 'px';
+    brace.style.opacity = '1';
+    setTimeout(() => drawBrace(idx), 350);
+  }
+}
+
+function onBlankKeydown(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    checkBlank(e.target);
+  }
+}
+function onBlankBlur(e) {
+  checkBlank(e.target);
+}
+
+function checkBlank(input) {
+  const blankId = input.dataset.blankId;
+  const answer = input.dataset.answer;
+  const blankBox = input.closest('.blank-box');
+  if (!answer || !blankBox) return;
+
+  // 已完成的不再检查
+  if (completed[blankId]) return;
+
+  const val = input.value.trim();
+  if (!val) return;
+
+  if (fuzzyMatch(val, answer)) {
+    // 正确
+    completed[blankId] = true;
+    saveProgress();
+    blankBox.classList.remove('wrong');
+    blankBox.classList.add('correct');
+    input.value = answer;
+    input.readOnly = true;
+
+    // 添加图标
+    const icon = document.createElement('span');
+    icon.className = 'blank-icon';
+    icon.textContent = '✓';
+    icon.style.color = 'var(--correct)';
+    blankBox.appendChild(icon);
+
+    updateProgress();
+
+    // 跳到下一个未完成的空
+    focusNextBlank(blankId);
+  } else {
+    // 错误
+    blankBox.classList.remove('wrong');
+    void blankBox.offsetWidth; // 触发 reflow 重新动画
+    blankBox.classList.add('wrong');
+
+    const icon = blankBox.querySelector('.blank-icon');
+    if (icon) icon.remove();
+
+    // 短暂显示×然后移除
+    let xIcon = blankBox.querySelector('.blank-icon-x');
+    if (!xIcon) {
+      xIcon = document.createElement('span');
+      xIcon.className = 'blank-icon blank-icon-x';
+      xIcon.textContent = '✗';
+      xIcon.style.color = 'var(--wrong)';
+      blankBox.appendChild(xIcon);
+      setTimeout(() => { if (xIcon.parentNode) xIcon.remove(); }, 1200);
+    }
+
+    // 选中输入内容方便重试
+    setTimeout(() => input.select(), 50);
+  }
+}
+
+function focusNextBlank(currentId) {
+  const allBlanks = document.querySelectorAll('.blank-box input:not([readonly])');
+  let found = false;
+  for (const inp of allBlanks) {
+    if (found) { inp.focus(); return; }
+    if (inp.dataset.blankId === currentId) found = true;
+  }
+}
+
+function toggleReview() {
+  reviewMode = !reviewMode;
+  const btn = document.getElementById('btnReview');
+  btn.classList.toggle('active', reviewMode);
+  btn.textContent = reviewMode ? '📖 复习中' : '📖 复习模式';
+
+  const container = document.getElementById('mindmapContainer');
+  container.classList.toggle('review-mode', reviewMode);
+
+  // 更新所有空的状态
+  document.querySelectorAll('.blank-box').forEach(box => {
+    const input = box.querySelector('input');
+    if (!input) return;
+    const blankId = input.dataset.blankId;
+    const answer = input.dataset.answer;
+
+    if (reviewMode) {
+      if (!completed[blankId]) {
+        input.value = answer;
+        input.readOnly = true;
+        box.classList.add('revealed');
+        // 移除错误标记
+        box.classList.remove('wrong');
+        const xIcon = box.querySelector('.blank-icon-x');
+        if (xIcon) xIcon.remove();
+      }
+    } else {
+      if (!completed[blankId]) {
+        input.value = '';
+        input.readOnly = false;
+        input.placeholder = '??';
+        box.classList.remove('revealed');
+      }
+    }
+  });
+}
+
+function updateProgress() {
+  const allBlankIds = [];
+  MINDMAP_DATA.branches.forEach(b => b.points.forEach(p => p.blanks.forEach(bl => allBlankIds.push(bl.id))));
+  const total = allBlankIds.length;
+  const done = allBlankIds.filter(id => completed[id]).length;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${done} / ${total} 已完成${pct === 100 ? ' 🎉' : ''}`;
+}
+
+// ========== 窗口调整重绘大括号 ==========
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    MINDMAP_DATA.branches.forEach((_, bi) => drawBrace(bi));
+  }, 200);
+});
+
+// ========== 初始化 ==========
+loadProgress();
+renderMindmap();
+</script>
+
+
+</body></html>
